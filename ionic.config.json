@@ -1,0 +1,7 @@
+{
+  "name": "covid19-stats",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
