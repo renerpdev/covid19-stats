@@ -1,4 +1,4 @@
-export interface Country {
+export interface CountryModel {
   name: string;
   img: string;
 }

@@ -9,10 +9,10 @@ import {
   IonList,
   IonThumbnail,
 } from '@ionic/react';
-import { Country } from '../../models/country';
+import { CountryModel } from '../../models/country';
 
 interface ContainerProps {
-  countries: Country[];
+  countries: CountryModel[];
   type: 'all' | 'favs';
 }
 

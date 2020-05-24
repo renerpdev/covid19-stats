@@ -16,12 +16,15 @@ import './Home.scss';
 import CountryList from '../../components/CountryList/CountryList';
 import _ from 'lodash';
 import CountriesJson from '../../assets/countries.json';
-import { Country } from '../../models/country';
+import { useTypedSelector } from '../../store/reducers';
+import { useDispatch } from 'react-redux';
+import { updateCountryList } from '../../store/country/actions';
 
 const Home: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [text, setText] = useState<string>('');
-  const [countries, setCountries] = useState<Country[]>([]);
+  const countryList = useTypedSelector(
+    (state) => state.country.countryList || []
+  );
   const getCountryCode = (countryName: string) => {
     const country = _.find(
       CountriesJson,
@@ -41,23 +44,16 @@ const Home: React.FC = () => {
     ];
   };
   const handleOnChange = (value: string) => {
-    if (_.isEmpty(value)) {
-      setCountries([]);
-    }
     if (value.length < 3) {
       return;
     }
-    setText(value);
-    console.log(value);
+    dispatch(updateCountryList([{ name: value, img: 'kk' }]));
   };
+  const dispatch = useDispatch();
   const c = getCountries();
   useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setCountries(c);
-      setLoading(false);
-    }, 1000);
-  }, [text]);
+    console.log(countryList);
+  }, [countryList]);
   return (
     <IonPage>
       <IonHeader>
@@ -81,7 +77,7 @@ const Home: React.FC = () => {
         <IonGrid>
           <IonRow>
             <IonCol sizeLg={'8'} offsetLg={'2'}>
-              <CountryList countries={countries} type={'all'} />
+              <CountryList countries={countryList} type={'all'} />
             </IonCol>
           </IonRow>
         </IonGrid>
