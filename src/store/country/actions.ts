@@ -1,5 +1,6 @@
 import {
   CountryActionTypes,
+  FETCH_COUNTRY_DATA,
   FETCH_COUNTRY_LIST,
   UPDATE_COUNTRY_LIST,
   UPDATE_FAVORITES,
@@ -12,6 +13,12 @@ export const fetchCountryList = () => {
   return {
     type: FETCH_COUNTRY_LIST,
     payload: AxiosService.getCountryList(),
+  };
+};
+export const fetchCountryData = (country: string) => {
+  return {
+    type: FETCH_COUNTRY_DATA,
+    payload: AxiosService.getCountryStats(country),
   };
 };
 

@@ -10,6 +10,11 @@ export const FETCH_COUNTRY_LIST_FULFILLED = 'FETCH_COUNTRY_LIST_FULFILLED';
 export const FETCH_COUNTRY_LIST_PENDING = 'FETCH_COUNTRY_LIST_PENDING';
 export const FETCH_COUNTRY_LIST_REJECTED = 'FETCH_COUNTRY_LIST_REJECTED';
 
+export const FETCH_COUNTRY_DATA = 'FETCH_COUNTRY_DATA';
+export const FETCH_COUNTRY_DATA_FULFILLED = 'FETCH_COUNTRY_DATA_FULFILLED';
+export const FETCH_COUNTRY_DATA_PENDING = 'FETCH_COUNTRY_DATA_PENDING';
+export const FETCH_COUNTRY_DATA_REJECTED = 'FETCH_COUNTRY_DATA_REJECTED';
+
 export interface Country {
   country: string;
   cases: {
@@ -47,23 +52,31 @@ interface FetchCountryListAction {
   payload: CountryModel[];
 }
 
+interface FetchCountryDataAction {
+  type: typeof FETCH_COUNTRY_DATA;
+  payload: CountryModel[];
+}
+
 interface FetchFulfilledAction {
-  type: typeof FETCH_COUNTRY_LIST_FULFILLED;
+  type:
+    | typeof FETCH_COUNTRY_LIST_FULFILLED
+    | typeof FETCH_COUNTRY_DATA_FULFILLED;
   payload: { data: { response: string[] } };
 }
 
 interface FetchRejectedAction {
-  type: typeof FETCH_COUNTRY_LIST_REJECTED;
+  type: typeof FETCH_COUNTRY_LIST_REJECTED | typeof FETCH_COUNTRY_DATA_REJECTED;
   payload: { data: { errors: [] } };
 }
 interface FetchPendingAction {
-  type: typeof FETCH_COUNTRY_LIST_PENDING;
+  type: typeof FETCH_COUNTRY_LIST_PENDING | typeof FETCH_COUNTRY_DATA_PENDING;
 }
 
 export type CountryActionTypes =
   | UpdateCountryListAction
   | UpdateFavoritesAction
   | FetchCountryListAction
+  | FetchCountryDataAction
   | FetchFulfilledAction
   | FetchPendingAction
   | FetchRejectedAction;

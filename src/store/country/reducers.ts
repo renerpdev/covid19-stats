@@ -1,6 +1,10 @@
 import {
+  Country,
   CountryActionTypes,
   CountryState,
+  FETCH_COUNTRY_DATA_FULFILLED,
+  FETCH_COUNTRY_DATA_PENDING,
+  FETCH_COUNTRY_DATA_REJECTED,
   FETCH_COUNTRY_LIST_FULFILLED,
   FETCH_COUNTRY_LIST_PENDING,
   FETCH_COUNTRY_LIST_REJECTED,
@@ -14,11 +18,7 @@ import UtilsService from '../../services/utils';
 const initialState: CountryState = {
   countryList: [],
   currentCountry: {},
-  favoriteCountries: [
-    { name: 'cuba', img: UtilsService.getImgUrl('cuba') },
-    { name: 'mozambique', img: UtilsService.getImgUrl('mozambique') },
-    { name: 'uruguay', img: UtilsService.getImgUrl('uruguay') },
-  ],
+  favoriteCountries: LocalStorageService.getFavoriteCountries(),
   isLoading: false,
   errors: [],
 };
@@ -59,6 +59,24 @@ export function countryReducer(
         isLoading: true,
       };
     case FETCH_COUNTRY_LIST_REJECTED:
+      return {
+        ...state,
+        isLoading: false,
+        errors: [...action.payload.data.errors],
+      };
+    case FETCH_COUNTRY_DATA_FULFILLED:
+      const country: any = action.payload.data.response[0];
+      return {
+        ...state,
+        currentCountry: country,
+        isLoading: false,
+      };
+    case FETCH_COUNTRY_DATA_PENDING:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case FETCH_COUNTRY_DATA_REJECTED:
       return {
         ...state,
         isLoading: false,

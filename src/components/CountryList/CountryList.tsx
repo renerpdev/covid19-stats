@@ -10,6 +10,8 @@ import {
   IonThumbnail,
 } from '@ionic/react';
 import { CountryModel } from '../../models/country';
+import { useDispatch } from 'react-redux';
+import { deleteFavoriteCountry } from '../../store/country/actions';
 
 interface ContainerProps {
   countries: CountryModel[];
@@ -17,6 +19,11 @@ interface ContainerProps {
 }
 
 const CountryList: React.FC<ContainerProps> = ({ countries, type }) => {
+  const dispatch = useDispatch();
+
+  const handleClick = (country: string) => {
+    dispatch(deleteFavoriteCountry(country));
+  };
   return (
     <IonList>
       {countries.map((country, i) => (
@@ -36,7 +43,10 @@ const CountryList: React.FC<ContainerProps> = ({ countries, type }) => {
           </IonItem>
           {type === 'favs' && (
             <IonItemOptions side="end">
-              <IonItemOption onClick={() => {}} color={'danger'}>
+              <IonItemOption
+                onClick={() => handleClick(country.name)}
+                color={'danger'}
+              >
                 Remover
               </IonItemOption>
             </IonItemOptions>

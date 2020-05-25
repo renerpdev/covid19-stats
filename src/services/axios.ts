@@ -8,11 +8,12 @@ const HEADERS = {
   'x-rapidapi-key': '6009a1a2e2msh0725eff496f16cfp1ec1bbjsn5c445a9a071d',
 };
 
-const req = (endpoint: string): Promise<any> => {
+const req = (endpoint: string, params = {}): Promise<any> => {
   return axios({
     method: METHOD_GET,
     url: BASE_URL + endpoint,
     headers: HEADERS,
+    params: params,
   });
 };
 
@@ -20,11 +21,11 @@ const getCountryList = (): Promise<any> => {
   return req('countries');
 };
 
-const getCountriesStats = (): Promise<any> => {
-  return req('statistics');
+const getCountryStats = (country: string): Promise<any> => {
+  return req('statistics', { country: country });
 };
 
 export default {
   getCountryList,
-  getCountriesStats,
+  getCountryStats,
 };
