@@ -53,7 +53,7 @@ const App: React.FC = () => {
           <IonRouterOutlet>
             <Route path="/home" component={Home} exact={true} />
             <Route path="/favorites" component={Favorites} exact={true} />
-            <Route path="/details/:list/:id" component={CountryDetails} />
+            <Route path="/details/:list/:name" component={CountryDetails} />
             <Route
               path="/"
               render={() => <Redirect to="/home" />}

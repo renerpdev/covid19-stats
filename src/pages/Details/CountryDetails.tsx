@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 import {
   IonPage,
@@ -23,17 +23,43 @@ import {
   IonIcon,
 } from '@ionic/react';
 import { star } from 'ionicons/icons';
+import {
+  addFavoriteCountry,
+  deleteFavoriteCountry,
+} from '../../store/country/actions';
+import { useDispatch } from 'react-redux';
+import UtilsService from '../../services/utils';
+import LocalStorage from '../../services/localStorage';
 
 interface UserDetailPageProps
   extends RouteComponentProps<{
-    id: string;
+    name: string;
     list: string;
   }> {}
 
 const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
+  const dispatch = useDispatch();
+  const {
+    params: { name: countryName },
+  } = match;
+  const img = UtilsService.getImgUrl(countryName);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
+  useEffect(() => {
+    setIsFavorite(LocalStorage.isFavorite(countryName));
+  });
+
   const toggleFavorite = () => {
+    if (isFavorite) {
+      dispatch(deleteFavoriteCountry(countryName));
+    } else {
+      dispatch(
+        addFavoriteCountry({
+          name: countryName,
+          img: img,
+        })
+      );
+    }
     setIsFavorite(!isFavorite);
   };
 
@@ -55,9 +81,7 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
                 <IonCardHeader>
                   <IonItem>
                     <IonThumbnail slot={'start'}>
-                      <IonImg
-                        src={'https://www.countryflags.io/cu/flat/48.png'}
-                      />
+                      <IonImg src={img} />
                     </IonThumbnail>
                     <IonIcon
                       onClick={toggleFavorite}
@@ -67,7 +91,7 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
                     />
                   </IonItem>
                   <IonCardTitle>
-                    <h2>Cuba</h2>
+                    <h2>{countryName}</h2>
                   </IonCardTitle>
                   <IonCardSubtitle>
                     <p>Lunes 12/02/20 12:12 pm </p>

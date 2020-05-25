@@ -2,6 +2,7 @@ import { CountryModel } from '../../models/country';
 
 // SYNC
 export const UPDATE_COUNTRY_LIST = 'UPDATE_COUNTRY_LIST';
+export const UPDATE_FAVORITES = 'UPDATE_FAVORITES';
 
 // ASYNC
 export const FETCH_COUNTRY_LIST = 'FETCH_COUNTRY_LIST';
@@ -25,15 +26,19 @@ export interface Country {
 }
 
 export interface CountryState {
-  currentCountry?: Country;
-  storedCountries?: Country[];
-  countryList?: CountryModel[];
-  errors?: any[];
-  isLoading?: boolean;
+  currentCountry: Country | {};
+  favoriteCountries: CountryModel[];
+  countryList: CountryModel[];
+  errors: any[];
+  isLoading: boolean;
 }
 
 interface UpdateCountryListAction {
   type: typeof UPDATE_COUNTRY_LIST;
+  payload: CountryModel[];
+}
+interface UpdateFavoritesAction {
+  type: typeof UPDATE_FAVORITES;
   payload: CountryModel[];
 }
 
@@ -57,6 +62,7 @@ interface FetchPendingAction {
 
 export type CountryActionTypes =
   | UpdateCountryListAction
+  | UpdateFavoritesAction
   | FetchCountryListAction
   | FetchFulfilledAction
   | FetchPendingAction

@@ -1,5 +1,4 @@
 import { CountryModel } from '../models/country';
-import { Country } from '../store/country/types';
 import _ from 'lodash';
 
 const PREFIX = 'cov19-';
@@ -7,8 +6,8 @@ const FAVORITE = 'favorites';
 const LIST = 'country-list';
 
 const getItem = (key: string) => {
-  const result = JSON.parse(localStorage.getItem(`${PREFIX}${key}`) || '');
-  return !_.isEmpty(result) ? result : [];
+  const result = localStorage.getItem(`${PREFIX}${key}`) || null;
+  return !_.isNil(result) ? JSON.parse(result) : [];
 };
 const setItem = (key: string, data: any) => {
   localStorage.setItem(`${PREFIX}${key}`, JSON.stringify(data));
@@ -25,18 +24,27 @@ const getFavoriteCountries = () => {
   return getItem(FAVORITE);
 };
 const addFavoriteCountry = (country: CountryModel) => {
-  const storedCountries = getCountryList();
-  const newFavorites = [...storedCountries, country];
+  const favorites = getFavoriteCountries();
+  if (isFavorite(country.name)) {
+    return favorites;
+  }
+  const newFavorites = [...favorites, country];
   setItem(FAVORITE, newFavorites);
   return newFavorites;
 };
 const removeFavoriteCountry = (name: string) => {
-  const storedCountries = getCountryList();
-  const newFavorites = storedCountries.filter(
+  const favorites = getFavoriteCountries();
+  const newFavorites = favorites.filter(
     (c: CountryModel) => c.name.toLowerCase() !== name.toLowerCase()
   );
   setItem(FAVORITE, newFavorites);
   return newFavorites;
+};
+const isFavorite = (name: string) => {
+  const favorites = getFavoriteCountries();
+  return _.some(favorites, (f) =>
+    _.isEqual(f.name.toLowerCase(), name.toLowerCase())
+  );
 };
 
 export default {
@@ -45,4 +53,5 @@ export default {
   removeFavoriteCountry,
   addFavoriteCountry,
   getFavoriteCountries,
+  isFavorite,
 };

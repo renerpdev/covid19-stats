@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   IonContent,
   IonHeader,
@@ -9,30 +9,24 @@ import {
   IonRow,
   IonCol,
 } from '@ionic/react';
-import _ from 'lodash';
-import CountriesJson from '../../assets/countries.json';
+import { CountryModel } from '../../models/country';
+import { useTypedSelector } from '../../store/reducers';
 import CountryList from '../../components/CountryList/CountryList';
+import { useDispatch } from 'react-redux';
+import { getFavoriteCountries } from '../../store/country/actions';
 
 const Favorites: React.FC = () => {
-  const getCountryCode = (countryName: string) => {
-    const country = _.find(
-      CountriesJson,
-      (e) => e.name.toLowerCase().indexOf(countryName.toLowerCase()) >= 0
-    );
-    return !_.isNil(country) ? country.code : '';
-  };
-  const getImgUrl = (name: string) => {
-    const code = getCountryCode(name.toLowerCase());
-    return `https://www.countryflags.io/${code}/flat/48.png`;
-  };
-  const getCountries = () => {
-    return [
-      { name: 'Germany', img: getImgUrl('Germany') },
-      { name: 'cuba', img: getImgUrl('cuba') },
-      { name: 'Belgium', img: getImgUrl('Belgium') },
-    ];
-  };
-  const countries = getCountries();
+  const dispatch = useDispatch();
+  const [countries, setCountries] = useState<CountryModel[]>([]);
+  const favorites = useTypedSelector(
+    (state) => state.country.favoriteCountries
+  );
+
+  useEffect(() => {
+    dispatch(getFavoriteCountries);
+    setCountries(favorites);
+  }, [favorites]);
+
   return (
     <IonPage>
       <IonHeader>

@@ -5,6 +5,7 @@ import {
   FETCH_COUNTRY_LIST_PENDING,
   FETCH_COUNTRY_LIST_REJECTED,
   UPDATE_COUNTRY_LIST,
+  UPDATE_FAVORITES,
 } from './types';
 import { CountryModel } from '../../models/country';
 import LocalStorageService from '../../services/localStorage';
@@ -12,7 +13,12 @@ import UtilsService from '../../services/utils';
 
 const initialState: CountryState = {
   countryList: [],
-  storedCountries: [],
+  currentCountry: {},
+  favoriteCountries: [
+    { name: 'cuba', img: UtilsService.getImgUrl('cuba') },
+    { name: 'mozambique', img: UtilsService.getImgUrl('mozambique') },
+    { name: 'uruguay', img: UtilsService.getImgUrl('uruguay') },
+  ],
   isLoading: false,
   errors: [],
 };
@@ -26,6 +32,11 @@ export function countryReducer(
       return {
         ...state,
         countryList: [...action.payload],
+      };
+    case UPDATE_FAVORITES:
+      return {
+        ...state,
+        favoriteCountries: [...action.payload],
       };
     case FETCH_COUNTRY_LIST_FULFILLED:
       const countries: CountryModel[] = action.payload.data.response.map(
@@ -49,6 +60,7 @@ export function countryReducer(
       };
     case FETCH_COUNTRY_LIST_REJECTED:
       return {
+        ...state,
         isLoading: false,
         errors: [...action.payload.data.errors],
       };

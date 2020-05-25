@@ -2,6 +2,7 @@ import {
   CountryActionTypes,
   FETCH_COUNTRY_LIST,
   UPDATE_COUNTRY_LIST,
+  UPDATE_FAVORITES,
 } from './types';
 import { CountryModel } from '../../models/country';
 import AxiosService from '../../services/axios';
@@ -18,15 +19,23 @@ export function addFavoriteCountry(
   newCountry: CountryModel
 ): CountryActionTypes {
   return {
-    type: UPDATE_COUNTRY_LIST,
+    type: UPDATE_FAVORITES,
     payload: [...LocalStorageService.addFavoriteCountry(newCountry)],
   };
 }
 
 export function deleteFavoriteCountry(name: string): CountryActionTypes {
   return {
-    type: UPDATE_COUNTRY_LIST,
+    type: UPDATE_FAVORITES,
     payload: [...LocalStorageService.removeFavoriteCountry(name)],
+  };
+}
+
+export function getFavoriteCountries(): CountryActionTypes {
+  const results = LocalStorageService.getFavoriteCountries();
+  return {
+    type: UPDATE_FAVORITES,
+    payload: results,
   };
 }
 
@@ -35,14 +44,6 @@ export function searchCountry(countryName: string): CountryActionTypes {
     (c: CountryModel) =>
       c.name.toLowerCase().indexOf(countryName.toLowerCase()) >= 0
   );
-  return {
-    type: UPDATE_COUNTRY_LIST,
-    payload: results,
-  };
-}
-
-export function getCountryList(): CountryActionTypes {
-  const results = LocalStorageService.getCountryList();
   return {
     type: UPDATE_COUNTRY_LIST,
     payload: results,
