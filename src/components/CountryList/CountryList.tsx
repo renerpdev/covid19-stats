@@ -21,7 +21,7 @@ interface ContainerProps {
 const CountryList: React.FC<ContainerProps> = ({ countries, type }) => {
   const dispatch = useDispatch();
 
-  const handleClick = (country: string) => {
+  const handleDelete = (country: string) => {
     dispatch(deleteFavoriteCountry(country));
   };
   return (
@@ -44,7 +44,7 @@ const CountryList: React.FC<ContainerProps> = ({ countries, type }) => {
           {type === 'favs' && (
             <IonItemOptions side="end">
               <IonItemOption
-                onClick={() => handleClick(country.name)}
+                onClick={() => handleDelete(country.name)}
                 color={'danger'}
               >
                 Remover

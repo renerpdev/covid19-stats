@@ -12,18 +12,14 @@ import {
 import { CountryModel } from '../../models/country';
 import { useTypedSelector } from '../../store/reducers';
 import CountryList from '../../components/CountryList/CountryList';
-import { useDispatch } from 'react-redux';
-import { getFavoriteCountries } from '../../store/country/actions';
 
 const Favorites: React.FC = () => {
-  const dispatch = useDispatch();
   const [countries, setCountries] = useState<CountryModel[]>([]);
   const favorites = useTypedSelector(
     (state) => state.country.favoriteCountries
   );
 
   useEffect(() => {
-    dispatch(getFavoriteCountries);
     setCountries(favorites);
   }, [favorites]);
 

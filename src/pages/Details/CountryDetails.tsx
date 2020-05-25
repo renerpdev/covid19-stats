@@ -51,12 +51,14 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
   const currentCountry = useTypedSelector(
     (state) => state.country.currentCountry
   );
+
   useEffect(() => {
     setIsFavorite(LocalStorage.isFavorite(countryName));
   });
+
   useEffect(() => {
     setStats(currentCountry[0]);
-  });
+  }, [currentCountry]);
 
   useEffect(() => {
     dispatch(fetchCountryData(countryName));
@@ -160,7 +162,7 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
                       </IonCol>
                       <IonCol size={'12'} sizeSm={'6'} sizeMd={'4'}>
                         <IonLabel color={'success'}>
-                          <h3>Análisis</h3>
+                          <h3>Análisis Hechos</h3>
                           <b>{stats?.tests.total}</b>
                         </IonLabel>
                       </IonCol>

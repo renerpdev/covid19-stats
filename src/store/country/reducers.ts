@@ -1,5 +1,4 @@
 import {
-  Country,
   CountryActionTypes,
   CountryState,
   FETCH_COUNTRY_DATA_FULFILLED,
