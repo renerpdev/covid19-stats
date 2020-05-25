@@ -25,7 +25,7 @@ const getFavoriteCountries = () => {
 };
 const addFavoriteCountry = (country: CountryModel) => {
   const favorites = getFavoriteCountries();
-  if (isFavorite(country.name)) {
+  if (isFavorite(country.id)) {
     return favorites;
   }
   const newFavorites = [...favorites, country];
@@ -35,15 +35,15 @@ const addFavoriteCountry = (country: CountryModel) => {
 const removeFavoriteCountry = (name: string) => {
   const favorites = getFavoriteCountries();
   const newFavorites = favorites.filter(
-    (c: CountryModel) => c.name.toLowerCase() !== name.toLowerCase()
+    (c: CountryModel) => c.id.toLowerCase() !== name.toLowerCase()
   );
   setItem(FAVORITE, newFavorites);
   return newFavorites;
 };
-const isFavorite = (name: string) => {
+const isFavorite = (id: string) => {
   const favorites = getFavoriteCountries();
   return _.some(favorites, (f) =>
-    _.isEqual(f.name.toLowerCase(), name.toLowerCase())
+    _.isEqual(f.id.toLowerCase(), id.toLowerCase())
   );
 };
 

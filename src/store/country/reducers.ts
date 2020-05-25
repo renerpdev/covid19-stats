@@ -39,10 +39,12 @@ export function countryReducer(
       };
     case FETCH_COUNTRY_LIST_FULFILLED:
       const countries: CountryModel[] = action.payload.data.response.map(
-        (c) => {
+        (c): CountryModel => {
+          const name = UtilsService.formatCountryName(c);
           return {
-            name: c,
-            img: UtilsService.getImgUrl(c),
+            name: name,
+            id: c,
+            img: UtilsService.getImgUrl(name),
           };
         }
       );

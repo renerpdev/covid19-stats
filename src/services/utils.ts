@@ -14,7 +14,12 @@ const getImgUrl = (name: string) => {
   return code ? `https://www.countryflags.io/${code}/flat/48.png` : '';
 };
 
+const formatCountryName = (name: string) => {
+  return name.replace(/[-]/g, ' ');
+};
+
 export default {
   getImgUrl,
   getCountryCode,
+  formatCountryName,
 };

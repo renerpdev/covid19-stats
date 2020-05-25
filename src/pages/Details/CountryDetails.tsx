@@ -36,15 +36,16 @@ import { Country } from '../../store/country/types';
 
 interface UserDetailPageProps
   extends RouteComponentProps<{
-    name: string;
+    id: string;
     list: string;
   }> {}
 
 const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
   const dispatch = useDispatch();
   const {
-    params: { name: countryName },
+    params: { id: id },
   } = match;
+  const countryName = UtilsService.formatCountryName(id);
   const img = UtilsService.getImgUrl(countryName);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [stats, setStats] = useState<Country>();
@@ -53,7 +54,7 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
   );
 
   useEffect(() => {
-    setIsFavorite(LocalStorage.isFavorite(countryName));
+    setIsFavorite(LocalStorage.isFavorite(id));
   });
 
   useEffect(() => {
@@ -61,7 +62,7 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
   }, [currentCountry]);
 
   useEffect(() => {
-    dispatch(fetchCountryData(countryName));
+    dispatch(fetchCountryData(id));
   }, [false]);
 
   const toggleFavorite = () => {
@@ -72,6 +73,7 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
         addFavoriteCountry({
           name: countryName,
           img: img,
+          id: id,
         })
       );
     }
@@ -85,7 +87,7 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
           <IonButtons slot={'start'}>
             <IonBackButton defaultHref={'/home'}></IonBackButton>
           </IonButtons>
-          <IonTitle>Country Details</IonTitle>
+          <IonTitle>Estadísticas del país</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -162,7 +164,7 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
                       </IonCol>
                       <IonCol size={'12'} sizeSm={'6'} sizeMd={'4'}>
                         <IonLabel color={'success'}>
-                          <h3>Análisis Hechos</h3>
+                          <h3>Muestras Tomadas</h3>
                           <b>{stats?.tests.total}</b>
                         </IonLabel>
                       </IonCol>

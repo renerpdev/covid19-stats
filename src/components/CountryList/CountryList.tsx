@@ -30,7 +30,7 @@ const CountryList: React.FC<ContainerProps> = ({ countries, type }) => {
         <IonItemSliding key={i}>
           <IonItem
             detail={true}
-            routerLink={`/details/${type}/${country.name}`}
+            routerLink={`/details/${type}/${country.id}`}
             routerDirection="forward"
           >
             <IonThumbnail slot="start">

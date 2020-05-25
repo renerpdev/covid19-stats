@@ -38,9 +38,7 @@ import { useTypedSelector } from './store/reducers';
 
 const App: React.FC = () => {
   const [showLoading, setShowLoading] = useState(false);
-  const isLoading = useTypedSelector(
-    (state) => state.country.isLoading || false
-  );
+  const isLoading = useTypedSelector((state) => state.country.isLoading);
 
   useEffect(() => {
     setShowLoading(isLoading);
@@ -53,7 +51,7 @@ const App: React.FC = () => {
           <IonRouterOutlet>
             <Route path="/home" component={Home} exact={true} />
             <Route path="/favorites" component={Favorites} exact={true} />
-            <Route path="/details/:list/:name" component={CountryDetails} />
+            <Route path="/details/:list/:id" component={CountryDetails} />
             <Route
               path="/"
               render={() => <Redirect to="/home" />}
@@ -76,7 +74,7 @@ const App: React.FC = () => {
         cssClass="my-custom-class"
         isOpen={showLoading}
         onDidDismiss={() => setShowLoading(false)}
-        message={'Please wait...'}
+        message={'Por favor espere...'}
         duration={5000}
       />
     </IonApp>
