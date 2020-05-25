@@ -31,7 +31,7 @@ export interface Country {
 }
 
 export interface CountryState {
-  currentCountry: Country | {};
+  currentCountry: Country[];
   favoriteCountries: CountryModel[];
   countryList: CountryModel[];
   errors: any[];

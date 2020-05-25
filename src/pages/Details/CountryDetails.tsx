@@ -26,10 +26,13 @@ import { star } from 'ionicons/icons';
 import {
   addFavoriteCountry,
   deleteFavoriteCountry,
+  fetchCountryData,
 } from '../../store/country/actions';
 import { useDispatch } from 'react-redux';
 import UtilsService from '../../services/utils';
 import LocalStorage from '../../services/localStorage';
+import { useTypedSelector } from '../../store/reducers';
+import { Country } from '../../store/country/types';
 
 interface UserDetailPageProps
   extends RouteComponentProps<{
@@ -44,10 +47,20 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
   } = match;
   const img = UtilsService.getImgUrl(countryName);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
-
+  const [stats, setStats] = useState<Country>();
+  const currentCountry = useTypedSelector(
+    (state) => state.country.currentCountry
+  );
   useEffect(() => {
     setIsFavorite(LocalStorage.isFavorite(countryName));
   });
+  useEffect(() => {
+    setStats(currentCountry[0]);
+  });
+
+  useEffect(() => {
+    dispatch(fetchCountryData(countryName));
+  }, [false]);
 
   const toggleFavorite = () => {
     if (isFavorite) {
@@ -94,7 +107,20 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
                     <h2>{countryName}</h2>
                   </IonCardTitle>
                   <IonCardSubtitle>
-                    <p>Lunes 12/02/20 12:12 pm </p>
+                    <p>
+                      {stats?.time
+                        ? new Intl.DateTimeFormat('es', {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: 'numeric',
+                            minute: 'numeric',
+                            second: 'numeric',
+                            hour12: true,
+                          }).format(new Date(stats.time))
+                        : ''}
+                    </p>
                   </IonCardSubtitle>
                 </IonCardHeader>
                 <IonCardContent>
@@ -103,19 +129,19 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
                       <IonCol size={'12'} sizeSm={'6'} sizeMd={'4'}>
                         <IonLabel color={'primary'}>
                           <h3>Casos Activos</h3>
-                          <b>45</b>
+                          <b>{stats?.cases.active}</b>
                         </IonLabel>
                       </IonCol>
                       <IonCol size={'12'} sizeSm={'6'} sizeMd={'4'}>
                         <IonLabel color={'warning'}>
                           <h3>Casos Nuevos</h3>
-                          <b>12</b>
+                          <b>{stats?.cases.new}</b>
                         </IonLabel>
                       </IonCol>
                       <IonCol size={'12'} sizeSm={'6'} sizeMd={'4'}>
                         <IonLabel>
                           <h3>Total Casos</h3>
-                          <b>425</b>
+                          <b>{stats?.cases.total}</b>
                         </IonLabel>
                       </IonCol>
                     </IonRow>
@@ -123,19 +149,19 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
                       <IonCol size={'12'} sizeSm={'6'} sizeMd={'4'}>
                         <IonLabel color={'danger'}>
                           <h3>Muertes Nuevas</h3>
-                          <b>15</b>
+                          <b>{stats?.deaths.new}</b>
                         </IonLabel>
                       </IonCol>
                       <IonCol size={'12'} sizeSm={'6'} sizeMd={'4'}>
                         <IonLabel>
                           <h3>Total Muertes</h3>
-                          <b>15</b>
+                          <b>{stats?.deaths.total}</b>
                         </IonLabel>
                       </IonCol>
                       <IonCol size={'12'} sizeSm={'6'} sizeMd={'4'}>
                         <IonLabel color={'success'}>
                           <h3>Análisis</h3>
-                          <b>3240</b>
+                          <b>{stats?.tests.total}</b>
                         </IonLabel>
                       </IonCol>
                     </IonRow>

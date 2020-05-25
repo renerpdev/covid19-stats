@@ -17,7 +17,7 @@ import UtilsService from '../../services/utils';
 
 const initialState: CountryState = {
   countryList: [],
-  currentCountry: {},
+  currentCountry: [],
   favoriteCountries: LocalStorageService.getFavoriteCountries(),
   isLoading: false,
   errors: [],
@@ -68,7 +68,7 @@ export function countryReducer(
       const country: any = action.payload.data.response[0];
       return {
         ...state,
-        currentCountry: country,
+        currentCountry: [country],
         isLoading: false,
       };
     case FETCH_COUNTRY_DATA_PENDING:
