@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
@@ -8,6 +8,7 @@ import {
   IonTabBar,
   IonTabButton,
   IonTabs,
+  IonLoading,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { heart, home } from 'ionicons/icons';
@@ -33,30 +34,53 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import { useTypedSelector } from './store/reducers';
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route path="/home" component={Home} exact={true} />
-          <Route path="/favorites" component={Favorites} exact={true} />
-          <Route path="/details/:list/:id" component={CountryDetails} />
-          <Route path="/" render={() => <Redirect to="/home" />} exact={true} />
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="home" href="/home">
-            <IonIcon icon={home} />
-            <IonLabel>Inicio</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="favorites" href="/favorites">
-            <IonIcon icon={heart} />
-            <IonLabel>Favoritos</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
-);
+const App: React.FC = () => {
+  const [showLoading, setShowLoading] = useState(false);
+  const isLoading = useTypedSelector(
+    (state) => state.country.isLoading || false
+  );
+
+  useEffect(() => {
+    setShowLoading(isLoading);
+  }, [isLoading]);
+
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonTabs>
+          <IonRouterOutlet>
+            <Route path="/home" component={Home} exact={true} />
+            <Route path="/favorites" component={Favorites} exact={true} />
+            <Route path="/details/:list/:id" component={CountryDetails} />
+            <Route
+              path="/"
+              render={() => <Redirect to="/home" />}
+              exact={true}
+            />
+          </IonRouterOutlet>
+          <IonTabBar slot="bottom">
+            <IonTabButton tab="home" href="/home">
+              <IonIcon icon={home} />
+              <IonLabel>Inicio</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="favorites" href="/favorites">
+              <IonIcon icon={heart} />
+              <IonLabel>Favoritos</IonLabel>
+            </IonTabButton>
+          </IonTabBar>
+        </IonTabs>
+      </IonReactRouter>
+      <IonLoading
+        cssClass="my-custom-class"
+        isOpen={showLoading}
+        onDidDismiss={() => setShowLoading(false)}
+        message={'Please wait...'}
+        duration={5000}
+      />
+    </IonApp>
+  );
+};
 
 export default App;

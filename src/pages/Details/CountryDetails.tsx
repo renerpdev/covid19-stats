@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 import {
   IonPage,
@@ -20,7 +20,9 @@ import {
   IonThumbnail,
   IonItem,
   IonLabel,
+  IonIcon,
 } from '@ionic/react';
+import { star } from 'ionicons/icons';
 
 interface UserDetailPageProps
   extends RouteComponentProps<{
@@ -29,6 +31,12 @@ interface UserDetailPageProps
   }> {}
 
 const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+
+  const toggleFavorite = () => {
+    setIsFavorite(!isFavorite);
+  };
+
   return (
     <IonPage>
       <IonHeader>
@@ -45,11 +53,19 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
             <IonCol sizeLg={'8'} offsetLg={'2'}>
               <IonCard>
                 <IonCardHeader>
-                  <IonThumbnail>
-                    <IonImg
-                      src={'https://www.countryflags.io/cu/flat/48.png'}
-                    ></IonImg>
-                  </IonThumbnail>
+                  <IonItem>
+                    <IonThumbnail slot={'start'}>
+                      <IonImg
+                        src={'https://www.countryflags.io/cu/flat/48.png'}
+                      />
+                    </IonThumbnail>
+                    <IonIcon
+                      onClick={toggleFavorite}
+                      slot={'end'}
+                      icon={star}
+                      color={isFavorite ? 'warning' : 'default'}
+                    />
+                  </IonItem>
                   <IonCardTitle>
                     <h2>Cuba</h2>
                   </IonCardTitle>

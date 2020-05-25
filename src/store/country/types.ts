@@ -1,39 +1,35 @@
 import { CountryModel } from '../../models/country';
 
-export const SAVE_COUNTRY = 'SAVE_COUNTRY';
-export const DELETE_COUNTRY = 'DELETE_COUNTRY';
+// SYNC
 export const UPDATE_COUNTRY_LIST = 'UPDATE_COUNTRY_LIST';
 
+// ASYNC
+export const FETCH_COUNTRY_LIST = 'FETCH_COUNTRY_LIST';
+export const FETCH_COUNTRY_LIST_FULFILLED = 'FETCH_COUNTRY_LIST_FULFILLED';
+export const FETCH_COUNTRY_LIST_PENDING = 'FETCH_COUNTRY_LIST_PENDING';
+export const FETCH_COUNTRY_LIST_REJECTED = 'FETCH_COUNTRY_LIST_REJECTED';
+
 export interface Country {
-  country?: string;
-  cases?: {
+  country: string;
+  cases: {
     new: string;
     active: number;
     critical: number;
     recovered: number;
     total: number;
   };
-  deaths?: { new: string; total: number };
-  tests?: { total: number };
-  day?: string;
-  time?: string;
+  deaths: { new: string; total: number };
+  tests: { total: number };
+  day: string;
+  time: string;
 }
 
 export interface CountryState {
-  savedCountries?: Country[];
+  currentCountry?: Country;
+  storedCountries?: Country[];
   countryList?: CountryModel[];
-}
-
-interface SaveCountryAction {
-  type: typeof SAVE_COUNTRY;
-  payload: Country;
-}
-
-interface DeleteCountryAction {
-  type: typeof DELETE_COUNTRY;
-  meta: {
-    name: string;
-  };
+  errors?: any[];
+  isLoading?: boolean;
 }
 
 interface UpdateCountryListAction {
@@ -41,7 +37,27 @@ interface UpdateCountryListAction {
   payload: CountryModel[];
 }
 
+interface FetchCountryListAction {
+  type: typeof FETCH_COUNTRY_LIST;
+  payload: CountryModel[];
+}
+
+interface FetchFulfilledAction {
+  type: typeof FETCH_COUNTRY_LIST_FULFILLED;
+  payload: { data: { response: string[] } };
+}
+
+interface FetchRejectedAction {
+  type: typeof FETCH_COUNTRY_LIST_REJECTED;
+  payload: { data: { errors: [] } };
+}
+interface FetchPendingAction {
+  type: typeof FETCH_COUNTRY_LIST_PENDING;
+}
+
 export type CountryActionTypes =
-  | SaveCountryAction
-  | DeleteCountryAction
-  | UpdateCountryListAction;
+  | UpdateCountryListAction
+  | FetchCountryListAction
+  | FetchFulfilledAction
+  | FetchPendingAction
+  | FetchRejectedAction;

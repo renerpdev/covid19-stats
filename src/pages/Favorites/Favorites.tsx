@@ -9,7 +9,6 @@ import {
   IonRow,
   IonCol,
 } from '@ionic/react';
-import './Favorites.scss';
 import _ from 'lodash';
 import CountriesJson from '../../assets/countries.json';
 import CountryList from '../../components/CountryList/CountryList';

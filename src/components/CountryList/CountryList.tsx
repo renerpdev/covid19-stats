@@ -34,9 +34,13 @@ const CountryList: React.FC<ContainerProps> = ({ countries, type }) => {
               <p>Haga click para ver los detalles</p>
             </IonLabel>
           </IonItem>
-          <IonItemOptions side="end">
-            <IonItemOption onClick={() => {}}>Guardar</IonItemOption>
-          </IonItemOptions>
+          {type === 'favs' && (
+            <IonItemOptions side="end">
+              <IonItemOption onClick={() => {}} color={'danger'}>
+                Remover
+              </IonItemOption>
+            </IonItemOptions>
+          )}
         </IonItemSliding>
       ))}
     </IonList>
