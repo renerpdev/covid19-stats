@@ -10,6 +10,8 @@ import {
   IonGrid,
   IonRow,
   IonCol,
+  IonIcon,
+  IonButton,
 } from '@ionic/react';
 import CountryList from '../../components/CountryList/CountryList';
 import { useTypedSelector } from '../../store/reducers';
@@ -18,6 +20,7 @@ import { fetchCountryList, searchCountry } from '../../store/country/actions';
 import { CountryModel } from '../../models/country';
 import LocalStorageService from '../../services/localStorage';
 import _ from 'lodash';
+import { refresh } from 'ionicons/icons';
 
 const Home: React.FC = () => {
   const [countries, setCountries] = useState<CountryModel[]>([]);
@@ -28,10 +31,14 @@ const Home: React.FC = () => {
     dispatch(searchCountry(value));
   };
 
+  const handleOnRefresh = () => {
+    dispatch(fetchCountryList());
+  };
+
   useEffect(() => {
     const storedList = LocalStorageService.getCountryList();
     if (_.isEmpty(storedList)) {
-      dispatch(fetchCountryList());
+      handleOnRefresh();
     } else {
       dispatch(searchCountry(''));
     }
@@ -61,6 +68,7 @@ const Home: React.FC = () => {
             autocomplete={'on'}
             spellCheck={true}
           />
+          <IonIcon icon={refresh} onClick={handleOnRefresh} />
         </IonItem>
       </IonHeader>
       <IonContent>
