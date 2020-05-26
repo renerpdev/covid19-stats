@@ -16,12 +16,12 @@ import { useTypedSelector } from '../../store/reducers';
 import { useDispatch } from 'react-redux';
 import { fetchCountryList, searchCountry } from '../../store/country/actions';
 import { CountryModel } from '../../models/country';
+import LocalStorageService from '../../services/localStorage';
+import _ from 'lodash';
 
 const Home: React.FC = () => {
   const [countries, setCountries] = useState<CountryModel[]>([]);
-  const countryList = useTypedSelector(
-    (state) => state.country.countryList || []
-  );
+  const countryList = useTypedSelector((state) => state.country.countryList);
   const dispatch = useDispatch();
 
   const handleOnChange = (value: string) => {
@@ -29,8 +29,17 @@ const Home: React.FC = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchCountryList());
+    const storedList = LocalStorageService.getCountryList();
+    if (_.isEmpty(storedList)) {
+      dispatch(fetchCountryList());
+    } else {
+      dispatch(searchCountry(''));
+    }
   }, [false]);
+
+  useEffect(() => {
+    setCountries(countryList);
+  }, [countryList]);
 
   useEffect(() => {
     setCountries(countryList);

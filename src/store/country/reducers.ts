@@ -1,4 +1,5 @@
 import {
+  ADD_FAVORITE_COUNTRY,
   CountryActionTypes,
   CountryState,
   FETCH_COUNTRY_DATA_FULFILLED,
@@ -7,8 +8,9 @@ import {
   FETCH_COUNTRY_LIST_FULFILLED,
   FETCH_COUNTRY_LIST_PENDING,
   FETCH_COUNTRY_LIST_REJECTED,
+  REMOVE_FAVORITE_COUNTRY,
   UPDATE_COUNTRY_LIST,
-  UPDATE_FAVORITES,
+  UPDATE_NOTIFICATION_MSG,
 } from './types';
 import { CountryModel } from '../../models/country';
 import LocalStorageService from '../../services/localStorage';
@@ -17,9 +19,10 @@ import UtilsService from '../../services/utils';
 const initialState: CountryState = {
   countryList: [],
   currentCountry: [],
-  favoriteCountries: LocalStorageService.getFavoriteCountries(),
+  favoriteCountries: LocalStorageService.getFavorites(),
   isLoading: false,
   errors: [],
+  notificationMsg: '',
 };
 
 export function countryReducer(
@@ -32,10 +35,29 @@ export function countryReducer(
         ...state,
         countryList: [...action.payload],
       };
-    case UPDATE_FAVORITES:
+    case ADD_FAVORITE_COUNTRY:
+      const filter = state.favoriteCountries.filter(
+        (c: CountryModel) => c.id !== action.payload.id
+      );
+      const newFavorites = [...filter, action.payload];
+      LocalStorageService.setFavoritesCountries(newFavorites);
       return {
         ...state,
-        favoriteCountries: [...action.payload],
+        favoriteCountries: [...newFavorites],
+      };
+    case REMOVE_FAVORITE_COUNTRY:
+      const favorites = state.favoriteCountries.filter(
+        (c: CountryModel) => c.id !== action.payload
+      );
+      LocalStorageService.setFavoritesCountries(favorites);
+      return {
+        ...state,
+        favoriteCountries: [...favorites],
+      };
+    case UPDATE_NOTIFICATION_MSG:
+      return {
+        ...state,
+        notificationMsg: action.payload,
       };
     case FETCH_COUNTRY_LIST_FULFILLED:
       const countries: CountryModel[] = action.payload.data.response.map(
@@ -48,7 +70,7 @@ export function countryReducer(
           };
         }
       );
-      LocalStorageService.updateCountryList(countries);
+      LocalStorageService.setCountryList(countries);
       return {
         ...state,
         countryList: [...countries],

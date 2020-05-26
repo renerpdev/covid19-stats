@@ -2,7 +2,9 @@ import { CountryModel } from '../../models/country';
 
 // SYNC
 export const UPDATE_COUNTRY_LIST = 'UPDATE_COUNTRY_LIST';
-export const UPDATE_FAVORITES = 'UPDATE_FAVORITES';
+export const REMOVE_FAVORITE_COUNTRY = 'REMOVE_FAVORITE_COUNTRY';
+export const ADD_FAVORITE_COUNTRY = 'ADD_FAVORITE_COUNTRY';
+export const UPDATE_NOTIFICATION_MSG = 'UPDATE_NOTIFICATION_MSG';
 
 // ASYNC
 export const FETCH_COUNTRY_LIST = 'FETCH_COUNTRY_LIST';
@@ -36,15 +38,25 @@ export interface CountryState {
   countryList: CountryModel[];
   errors: any[];
   isLoading: boolean;
+  notificationMsg: string;
 }
 
 interface UpdateCountryListAction {
   type: typeof UPDATE_COUNTRY_LIST;
   payload: CountryModel[];
 }
-interface UpdateFavoritesAction {
-  type: typeof UPDATE_FAVORITES;
-  payload: CountryModel[];
+interface AddFavoriteCountryAction {
+  type: typeof ADD_FAVORITE_COUNTRY;
+  payload: CountryModel;
+}
+interface RemoveFavoriteCountryAction {
+  type: typeof REMOVE_FAVORITE_COUNTRY;
+  payload: string;
+}
+
+interface UpdateNotificationMsgAction {
+  type: typeof UPDATE_NOTIFICATION_MSG;
+  payload: string;
 }
 
 interface FetchCountryListAction {
@@ -74,9 +86,11 @@ interface FetchPendingAction {
 
 export type CountryActionTypes =
   | UpdateCountryListAction
-  | UpdateFavoritesAction
+  | AddFavoriteCountryAction
+  | RemoveFavoriteCountryAction
   | FetchCountryListAction
   | FetchCountryDataAction
   | FetchFulfilledAction
   | FetchPendingAction
-  | FetchRejectedAction;
+  | FetchRejectedAction
+  | UpdateNotificationMsgAction;

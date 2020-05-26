@@ -9,6 +9,8 @@ import {
   IonTabButton,
   IonTabs,
   IonLoading,
+  IonButton,
+  IonToast,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { heart, home } from 'ionicons/icons';
@@ -35,14 +37,27 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import { useTypedSelector } from './store/reducers';
+import _ from 'lodash';
 
 const App: React.FC = () => {
   const [showLoading, setShowLoading] = useState(false);
   const isLoading = useTypedSelector((state) => state.country.isLoading);
+  const notification = useTypedSelector(
+    (state) => state.country.notificationMsg
+  );
+  const [showToast, setShowToast] = useState(false);
+  const [toastMsg, setToastMsg] = useState('');
 
   useEffect(() => {
     setShowLoading(isLoading);
   }, [isLoading]);
+
+  useEffect(() => {
+    setToastMsg(notification);
+    if (!_.isEmpty(notification)) {
+      setShowToast(true);
+    }
+  }, [notification]);
 
   return (
     <IonApp>
@@ -75,7 +90,12 @@ const App: React.FC = () => {
         isOpen={showLoading}
         onDidDismiss={() => setShowLoading(false)}
         message={'Por favor espere...'}
-        duration={5000}
+      />
+      <IonToast
+        isOpen={showToast}
+        onDidDismiss={() => setShowToast(false)}
+        message={toastMsg}
+        duration={1000}
       />
     </IonApp>
   );

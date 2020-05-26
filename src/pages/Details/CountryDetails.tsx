@@ -30,7 +30,6 @@ import {
 } from '../../store/country/actions';
 import { useDispatch } from 'react-redux';
 import UtilsService from '../../services/utils';
-import LocalStorage from '../../services/localStorage';
 import { useTypedSelector } from '../../store/reducers';
 import { Country } from '../../store/country/types';
 
@@ -52,10 +51,14 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
   const currentCountry = useTypedSelector(
     (state) => state.country.currentCountry
   );
+  const favorites = useTypedSelector(
+    (state) => state.country.favoriteCountries
+  );
 
   useEffect(() => {
-    setIsFavorite(LocalStorage.isFavorite(id));
-  });
+    const isFavorite = favorites.some((f) => f.id === id);
+    setIsFavorite(isFavorite);
+  }, [favorites]);
 
   useEffect(() => {
     setStats(currentCountry[0]);
@@ -67,7 +70,7 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
 
   const toggleFavorite = () => {
     if (isFavorite) {
-      dispatch(deleteFavoriteCountry(countryName));
+      dispatch(deleteFavoriteCountry(id));
     } else {
       dispatch(
         addFavoriteCountry({

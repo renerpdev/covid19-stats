@@ -52,7 +52,7 @@ const CountryList: React.FC<ContainerProps> = ({ countries, type }) => {
           <IonItemOptions side="end">
             {isFavsType() && (
               <IonItemOption
-                onClick={() => deleteFavorite(country.name)}
+                onClick={() => deleteFavorite(country.id)}
                 color={'danger'}
               >
                 Remover
