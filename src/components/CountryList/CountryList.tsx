@@ -11,7 +11,10 @@ import {
 } from '@ionic/react';
 import { CountryModel } from '../../models/country';
 import { useDispatch } from 'react-redux';
-import { deleteFavoriteCountry } from '../../store/country/actions';
+import {
+  addFavoriteCountry,
+  deleteFavoriteCountry,
+} from '../../store/country/actions';
 
 interface ContainerProps {
   countries: CountryModel[];
@@ -21,9 +24,14 @@ interface ContainerProps {
 const CountryList: React.FC<ContainerProps> = ({ countries, type }) => {
   const dispatch = useDispatch();
 
-  const handleDelete = (country: string) => {
+  const deleteFavorite = (country: string) => {
     dispatch(deleteFavoriteCountry(country));
   };
+  const addFavorite = (country: CountryModel) => {
+    dispatch(addFavoriteCountry(country));
+  };
+  const isFavsType = () => type === 'favs';
+
   return (
     <IonList>
       {countries.map((country, i) => (
@@ -41,16 +49,24 @@ const CountryList: React.FC<ContainerProps> = ({ countries, type }) => {
               <p>Haga click para ver los detalles</p>
             </IonLabel>
           </IonItem>
-          {type === 'favs' && (
-            <IonItemOptions side="end">
+          <IonItemOptions side="end">
+            {isFavsType() && (
               <IonItemOption
-                onClick={() => handleDelete(country.name)}
+                onClick={() => deleteFavorite(country.name)}
                 color={'danger'}
               >
                 Remover
               </IonItemOption>
-            </IonItemOptions>
-          )}
+            )}
+            {!isFavsType() && (
+              <IonItemOption
+                onClick={() => addFavorite(country)}
+                color={'secondary'}
+              >
+                Guardar
+              </IonItemOption>
+            )}
+          </IonItemOptions>
         </IonItemSliding>
       ))}
     </IonList>
