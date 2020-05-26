@@ -43,7 +43,7 @@ export function deleteFavoriteCountry(id: string): CountryActionTypes {
 export function updateNotificationMsg(msg: string): CountryActionTypes {
   return {
     type: UPDATE_NOTIFICATION_MSG,
-    payload: msg,
+    payload: `${msg}-${new Date().toISOString()}`,
   };
 }
 

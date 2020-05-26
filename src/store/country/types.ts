@@ -45,7 +45,7 @@ interface UpdateCountryListAction {
   type: typeof UPDATE_COUNTRY_LIST;
   payload: CountryModel[];
 }
-interface AddFavoriteCountryAction {
+export interface AddFavoriteCountryAction {
   type: typeof ADD_FAVORITE_COUNTRY;
   payload: CountryModel;
 }

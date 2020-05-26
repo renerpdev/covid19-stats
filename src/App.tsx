@@ -53,7 +53,8 @@ const App: React.FC = () => {
   }, [isLoading]);
 
   useEffect(() => {
-    setToastMsg(notification);
+    const msg = notification.split('-')[0];
+    setToastMsg(msg);
     if (!_.isEmpty(notification)) {
       setShowToast(true);
     }
