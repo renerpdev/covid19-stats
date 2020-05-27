@@ -17,6 +17,7 @@ First of all you need to clone this project
 >  `git clone https://github.com/2rhop/covid19-stats.git`
 
 >  `npm i`
+
 >  `ionic serve`
 
  The application will run on 8100 port
