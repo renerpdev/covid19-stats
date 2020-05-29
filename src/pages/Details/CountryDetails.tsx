@@ -138,7 +138,8 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
                           <h3>Casos Activos</h3>
                           <b>
                             {(stats?.cases.total || 0) -
-                              (stats?.cases.recovered || 0)}
+                              (stats?.cases.recovered || 0) -
+                              (stats?.deaths.total || 0)}
                           </b>
                         </IonLabel>
                       </IonCol>
