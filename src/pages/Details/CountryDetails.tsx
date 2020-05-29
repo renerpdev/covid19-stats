@@ -49,7 +49,7 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [stats, setStats] = useState<Country>();
   const currentCountry = useTypedSelector(
-    (state) => state.country.currentCountry
+    (state) => state.country.currentCountry[0]
   );
   const favorites = useTypedSelector(
     (state) => state.country.favoriteCountries
@@ -58,15 +58,15 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
   useEffect(() => {
     const isFavorite = favorites.some((f) => f.id === id);
     setIsFavorite(isFavorite);
-  }, [favorites]);
+  }, [favorites, id]);
 
   useEffect(() => {
-    setStats(currentCountry[0]);
+    setStats(currentCountry);
   }, [currentCountry]);
 
   useEffect(() => {
     dispatch(fetchCountryData(id));
-  }, [false]);
+  }, [id]);
 
   const toggleFavorite = () => {
     if (isFavorite) {
