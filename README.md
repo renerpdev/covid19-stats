@@ -25,4 +25,3 @@ First of all you need to clone this project
 
 ### Support Development
 - [missing country flags](https://github.com/2rhop/covid19-stats/issues/1)
-- [wrong values on details page](https://github.com/2rhop/covid19-stats/issues/2)
