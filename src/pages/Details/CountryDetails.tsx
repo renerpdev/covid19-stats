@@ -136,7 +136,10 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
                       <IonCol size={'12'} sizeSm={'6'} sizeMd={'4'}>
                         <IonLabel color={'primary'}>
                           <h3>Casos Activos</h3>
-                          <b>{stats?.cases.active}</b>
+                          <b>
+                            {(stats?.cases.total || 0) -
+                              (stats?.cases.recovered || 0)}
+                          </b>
                         </IonLabel>
                       </IonCol>
                       <IonCol size={'12'} sizeSm={'6'} sizeMd={'4'}>
