@@ -27,7 +27,9 @@ const Favorites: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Mis favoritos</IonTitle>
+          <IonTitle>
+            <h1 style={{ textAlign: 'center' }}>My Favorites</h1>
+          </IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>

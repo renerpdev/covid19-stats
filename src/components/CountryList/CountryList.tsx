@@ -46,7 +46,7 @@ const CountryList: React.FC<ContainerProps> = ({ countries, type }) => {
             </IonThumbnail>
             <IonLabel>
               <h2>{country.name}</h2>
-              <p>Haga click para ver los detalles</p>
+              <p>Click to see all stats</p>
             </IonLabel>
           </IonItem>
           <IonItemOptions side="end">

@@ -55,17 +55,20 @@ const Home: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Buscar países</IonTitle>
+          <IonTitle>
+            <h1 style={{ textAlign: 'center' }}>Infected Countries</h1>
+          </IonTitle>
         </IonToolbar>
         <IonItem>
           <IonInput
             onIonChange={(e) => handleOnChange(e.detail.value!)}
-            placeholder={'Escriba el nombre (en inlges)'}
+            placeholder={'Type country name'}
             autofocus={true}
             inputMode={'text'}
             clearInput={true}
             autocomplete={'on'}
             spellCheck={true}
+            style={{ textAlign: 'center', maxWidth: '45rem', margin: 'auto' }}
           />
           <IonIcon icon={refresh} onClick={handleOnRefresh} />
         </IonItem>

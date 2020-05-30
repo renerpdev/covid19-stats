@@ -77,11 +77,11 @@ const App: React.FC = () => {
           <IonTabBar slot="bottom">
             <IonTabButton tab="home" href="/home">
               <IonIcon icon={home} />
-              <IonLabel>Inicio</IonLabel>
+              <IonLabel>Home</IonLabel>
             </IonTabButton>
             <IonTabButton tab="favorites" href="/favorites">
               <IonIcon icon={heart} />
-              <IonLabel>Favoritos</IonLabel>
+              <IonLabel>Favorites</IonLabel>
             </IonTabButton>
           </IonTabBar>
         </IonTabs>
@@ -90,7 +90,7 @@ const App: React.FC = () => {
         cssClass="my-custom-class"
         isOpen={showLoading}
         onDidDismiss={() => setShowLoading(false)}
-        message={'Por favor espere...'}
+        message={'Please wait...'}
       />
       <IonToast
         isOpen={showToast}

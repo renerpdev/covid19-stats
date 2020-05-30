@@ -13,7 +13,6 @@ import {
   IonCol,
   IonCard,
   IonCardHeader,
-  IonCardTitle,
   IonCardSubtitle,
   IonCardContent,
   IonImg,
@@ -90,7 +89,11 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
           <IonButtons slot={'start'}>
             <IonBackButton defaultHref={'/home'}></IonBackButton>
           </IonButtons>
-          <IonTitle>Estadísticas del país</IonTitle>
+          <IonTitle>
+            <h2 style={{ textAlign: 'center' }}>
+              <b>{countryName}</b> stats
+            </h2>
+          </IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -110,13 +113,10 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
                       color={isFavorite ? 'warning' : 'default'}
                     />
                   </IonItem>
-                  <IonCardTitle>
-                    <h2>{countryName}</h2>
-                  </IonCardTitle>
                   <IonCardSubtitle>
                     <p>
                       {stats?.time
-                        ? new Intl.DateTimeFormat('es', {
+                        ? new Intl.DateTimeFormat('en', {
                             weekday: 'long',
                             year: 'numeric',
                             month: 'long',
@@ -135,7 +135,7 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
                     <IonRow>
                       <IonCol size={'12'} sizeSm={'6'} sizeMd={'4'}>
                         <IonLabel color={'primary'}>
-                          <h3>Casos Activos</h3>
+                          <h3>Active Cases</h3>
                           <b>
                             {(stats?.cases.total || 0) -
                               (stats?.cases.recovered || 0) -
@@ -145,13 +145,13 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
                       </IonCol>
                       <IonCol size={'12'} sizeSm={'6'} sizeMd={'4'}>
                         <IonLabel color={'warning'}>
-                          <h3>Casos Nuevos</h3>
+                          <h3>New Cases</h3>
                           <b>{stats?.cases.new}</b>
                         </IonLabel>
                       </IonCol>
                       <IonCol size={'12'} sizeSm={'6'} sizeMd={'4'}>
                         <IonLabel>
-                          <h3>Total Casos</h3>
+                          <h3>Total Cases</h3>
                           <b>{stats?.cases.total}</b>
                         </IonLabel>
                       </IonCol>
@@ -159,19 +159,19 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
                     <IonRow>
                       <IonCol size={'12'} sizeSm={'6'} sizeMd={'4'}>
                         <IonLabel color={'danger'}>
-                          <h3>Muertes Nuevas</h3>
+                          <h3>New Deaths</h3>
                           <b>{stats?.deaths.new}</b>
                         </IonLabel>
                       </IonCol>
                       <IonCol size={'12'} sizeSm={'6'} sizeMd={'4'}>
                         <IonLabel>
-                          <h3>Total Muertes</h3>
+                          <h3>Total Deaths</h3>
                           <b>{stats?.deaths.total}</b>
                         </IonLabel>
                       </IonCol>
                       <IonCol size={'12'} sizeSm={'6'} sizeMd={'4'}>
                         <IonLabel color={'success'}>
-                          <h3>Muestras Tomadas</h3>
+                          <h3>Tests</h3>
                           <b>{stats?.tests.total}</b>
                         </IonLabel>
                       </IonCol>
