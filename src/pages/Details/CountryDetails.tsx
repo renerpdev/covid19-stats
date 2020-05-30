@@ -43,8 +43,8 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
   const {
     params: { id },
   } = match;
-  const countryName = UtilsService.formatCountryName(id);
-  const img = UtilsService.getImgUrl(countryName);
+  const [countryName, setCountryName] = useState('');
+  const [img, setImg] = useState('');
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [stats, setStats] = useState<Country>();
   const currentCountry = useTypedSelector(
@@ -65,7 +65,12 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
 
   useEffect(() => {
     dispatch(fetchCountryData(id));
+    setCountryName(UtilsService.formatCountryName(id));
   }, [id]);
+
+  useEffect(() => {
+    setImg(UtilsService.getImgUrl(countryName));
+  }, [countryName]);
 
   const toggleFavorite = () => {
     if (isFavorite) {
@@ -79,7 +84,6 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
         })
       );
     }
-    setIsFavorite(!isFavorite);
   };
 
   return (
@@ -90,9 +94,7 @@ const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
             <IonBackButton defaultHref={'/home'}></IonBackButton>
           </IonButtons>
           <IonTitle>
-            <h2 style={{ textAlign: 'center' }}>
-              <b>{countryName}</b> stats
-            </h2>
+            <h2 style={{ textAlign: 'center' }}>{countryName} stats</h2>
           </IonTitle>
         </IonToolbar>
       </IonHeader>
