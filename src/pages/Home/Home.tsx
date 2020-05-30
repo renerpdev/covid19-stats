@@ -11,7 +11,6 @@ import {
   IonRow,
   IonCol,
   IonIcon,
-  IonButton,
 } from '@ionic/react';
 import CountryList from '../../components/CountryList/CountryList';
 import { useTypedSelector } from '../../store/reducers';

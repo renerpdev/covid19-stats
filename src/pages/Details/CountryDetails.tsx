@@ -42,7 +42,7 @@ interface UserDetailPageProps
 const CountryDetails: React.FC<UserDetailPageProps> = ({ match }) => {
   const dispatch = useDispatch();
   const {
-    params: { id: id },
+    params: { id },
   } = match;
   const countryName = UtilsService.formatCountryName(id);
   const img = UtilsService.getImgUrl(countryName);
