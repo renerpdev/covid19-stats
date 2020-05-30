@@ -1,6 +1,7 @@
 {
   "short_name": "Covid19-Stats",
   "name": "Covid19 Stats",
+  "description": "React app for getting info about CoVid-19",
   "icons": [
     {
       "src": "assets/icon/favicon.ico",
