@@ -11,6 +11,7 @@ import {
   IonRow,
   IonCol,
   IonIcon,
+  IonButton,
 } from '@ionic/react';
 import CountryList from '../../components/CountryList/CountryList';
 import { useTypedSelector } from '../../store/reducers';
@@ -23,11 +24,23 @@ import { refresh } from 'ionicons/icons';
 
 const Home: React.FC = () => {
   const [countries, setCountries] = useState<CountryModel[]>([]);
+  const [searchKey, setSearchKey] = useState('');
+  const [loadMore, setLoadMore] = useState(true);
   const countryList = useTypedSelector((state) => state.country.countryList);
   const dispatch = useDispatch();
+  const INITIAL_SLICE = 10;
 
   const handleOnChange = (value: string) => {
-    dispatch(searchCountry(value));
+    setSearchKey(value);
+  };
+
+  const loadMoreCountries = (slice?: number | undefined) => {
+    const currentSize = countries.length;
+    const totalSize = countryList.length;
+    const toBeSliced = slice ? slice : INITIAL_SLICE + currentSize;
+    setLoadMore(currentSize < totalSize);
+    const newCountries = countryList.slice(0, toBeSliced);
+    setCountries(newCountries);
   };
 
   const handleOnRefresh = () => {
@@ -38,18 +51,16 @@ const Home: React.FC = () => {
     const storedList = LocalStorageService.getCountryList();
     if (_.isEmpty(storedList)) {
       handleOnRefresh();
-    } else {
-      dispatch(searchCountry(''));
     }
-  }, [false]);
+  }, []);
 
   useEffect(() => {
-    setCountries(countryList);
+    loadMoreCountries(INITIAL_SLICE);
   }, [countryList]);
 
   useEffect(() => {
-    setCountries(countryList);
-  }, [countryList]);
+    dispatch(searchCountry(searchKey));
+  }, [searchKey]);
 
   return (
     <IonPage>
@@ -78,6 +89,14 @@ const Home: React.FC = () => {
           <IonRow>
             <IonCol sizeLg={'8'} offsetLg={'2'}>
               <CountryList countries={countries} type={'all'} />
+              {loadMore && (
+                <IonButton
+                  style={{ display: 'block' }}
+                  onClick={() => loadMoreCountries()}
+                >
+                  See more
+                </IonButton>
+              )}
             </IonCol>
           </IonRow>
         </IonGrid>
