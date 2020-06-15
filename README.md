@@ -1,5 +1,5 @@
 ## Covid19 Stats
-Mobile app built in order to display all covid19 data. Its develop with some of the top moderne frontend technologies such as: **typescript**, **React**, **Redux**, and **Ionic**. All of these awesome techs together make a perfect environment to create a cross-platform app.  
+Mobile app built in order to display all covid19 data. It was developed with some of the top modern frontend technologies such as **typescript**, **React**, **Redux**, and **Ionic**. All of these awesome techs together make a perfect environment to create a cross-platform app.  
 
 ### APIs
 This app uses [rapidapi](https://rapidapi.com/api-sports/api/covid-193) for the data fetching and [countryflag.io](https://www.countryflags.io/) for displaying country flags
