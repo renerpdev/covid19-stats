@@ -7,7 +7,7 @@ This app uses [rapidapi](https://rapidapi.com/api-sports/api/covid-193) for the 
 ### Demo
 The demo is hosted [here](https://cov19-stats.firebaseapp.com/home) thanks to **firebase**
 
-### Buy me a beer 😉
+### Buy me a coffee 😉
 https://www.paypal.me/2rhop
 
 ### Installation
