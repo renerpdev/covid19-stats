@@ -14,7 +14,7 @@ https://www.paypal.me/2rhop
 
 First of all you need to clone this project
 
->  `git clone https://github.com/2rhop/covid19-stats.git`
+>  `git clone https://github.com/renerpdev/covid19-stats.git`
 
 >  `npm i`
 
@@ -24,4 +24,4 @@ First of all you need to clone this project
 
 
 ### Support Development
-- [missing country flags](https://github.com/2rhop/covid19-stats/issues/1)
+- [missing country flags](https://github.com/renerpdev/covid19-stats/issues/1)
